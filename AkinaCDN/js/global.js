@@ -37,7 +37,7 @@ var ajaxcomments = function(){
         $.ajax({
             url: $(this).attr('action'),
             type: $(this).attr('method'),
-            data: $(this).serializeArray(),async: false,
+            data: $(this).serializeArray(),async: true,
             error: function() {
                 $("#submit").val("提交失败");
                 return false;
@@ -350,4 +350,4 @@ $(document).ready(function(){
 	$("a[href*='://']:not(a[href^='"+document.location.protocol+"//"+document.location.host+"'],a[href^='javascript:'])").attr({target:"_blank",rel:"nofollow noopener noreferrer"});
 	$(".links a[href*='://']").removeAttr("rel");
 });
-console.log("%cAkina for Typecho 3.3.0","background:#ff6d6d;color:#fff;margin:10px;padding:6px;","https://zhebk.cn");
+console.log("%cAkina for Typecho 3.3.1","background:#ff6d6d;color:#fff;margin:10px;padding:6px;","https://zhebk.cn");
