@@ -1,4 +1,4 @@
-@charset"utf-8";
+﻿@charset"utf-8";
 html {
 font-family: sans-serif;
 -webkit-text-size-adjust: 100%;
@@ -243,7 +243,10 @@ h6 {
 clear: both;
 }
 
-p {margin-bottom: 1.6em;font-family: miranafont,"Hiragino Sans GB",STXihei,"Microsoft YaHei",SimSun,sans-serif;}
+p {
+margin-bottom: 1.5em;
+font-family: miranafont,"Hiragino Sans GB",STXihei,"Microsoft YaHei",SimSun,sans-serif;
+}
 
 dfn,
 cite,
@@ -339,9 +342,6 @@ box-sizing: inherit;
 
 body {
 background: #fff; /* Fallback for when there is no custom background color defined. */
-				@media (max-width:1080px) {#centerbg {display:none} }
-					.wedonate img { margin-right:10px }
-		a,code{word-wrap: break-word;white-space:nowrap;}span.sitename {color: #535353;font-weight: bold;margin-left:36px;margin-top:6px;}.icons{float: left;width:32px;height:32px;}
 }
 
 blockquote:before,
@@ -3439,6 +3439,7 @@ float:left;
 margin-right:10px
 }
 
+
 .wechat {
 width: 32px;
 height: 32px;
@@ -3484,7 +3485,19 @@ visibility: visible;
 position: relative;
 }
 
-.qqInner{padding:10px;background: #FFFFFF;color:#505050;top:40px;left:-58px;width: 160px;-webkit-transform: translate3d(0,50px,0);transform: translate3d(0,50px,0);font-size:13px;visibility: hidden;opacity:0;}
+.qqInner{
+padding:10px;
+background: #FFFFFF;
+color:#505050;
+top:40px;
+left:-58px;
+width:150px;
+-webkit-transform: translate3d(0,50px,0);
+transform: translate3d(0,50px,0);
+font-size:13px;
+visibility: hidden;
+opacity:0;
+}
 
 .qq:hover .qqInner{
 opacity:1;
@@ -5007,17 +5020,3 @@ pre[class*="language-"] {
 				@media (max-width:1080px) {#centerbg {display:none} }
 					.wedonate img { margin-right:10px }
 		a,code{word-wrap: break-word;white-space:nowrap;}span.sitename {color: #535353;font-weight: bold;margin-left:36px;margin-top:6px;}.icons{float: left;width:32px;height:32px;}
-.reply2view {
-    background:#f8f8f8;
-    padding:10px 10px 10px 40px;
-    position:relative
-}
-.reply2view i {
-    display:block;
-    font-size:20px;
-    height:20px;
-    left:10px;
-    line-height:20px;
-    position:absolute;
-    top:15px
-}
