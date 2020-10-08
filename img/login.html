@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+    <meta name="author" content="Vincent Garreau" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" media="screen" href="/static/css/login.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css" />
+    <script src="/static/js/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+        <div style="
+        z-index: -3;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        min-height: 475px;
+        background-image: url(https://oss.nmsl.mobi/Team/yunk/img/0072Vf1pgy1foxkcriixpj31hc0u0wu8.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        "></div>
+        <div id="particles-js" >
+        <div class="login" >
+        <div class="login-top" > 堡塔云控平台</div >
+        <div class="login-center clearfix" >
+        <div class="login-center-img" > <img src="/static/img/name.png" / > </div >
+        <div class="login-center-input" >
+        <input class="input-txt" type="text" name="username" value="" autocomplete="off" placeholder="用户名" / >
+        </div >
+        <div class="error" > </div >
+        </div >
+        <div class="login-center clearfix" >
+        <div class="login-center-img" > <img src="/static/img/password.png" / > </div >
+        <div class="login-center-input" >
+        <input id="password-txt" class="input-txt" type="password" name="password" value="" autocomplete="off" placeholder="密码" / >
+        </div >
+        </div >
+        <div class="login-center clearfix yzm" {
+            % if not session['coll_code'] %
+        }
+
+        style="display:none" {
+            % endif %
+        }
+
+        >
+        <div class="login-center-img" > <img src="/static/img/code.png" / > </div >
+        <div class="login-center-input" style="width:200px" >
+        <input id="code-txt" class="input-txt" type="text" name="code" value="" placeholder="验证码" / >
+        </div >
+        <div class="ver-code fl" > <img src="/code" onclick="this.src=this.src.split('?')[0] + '?'+new Date().getTime()" / > </div >
+        </div >
+
+        <div class="login-button" >
+        登录
+        </div >
+        </div >
+        <div class="sk-rotating-plane" > </div >
+        </div >
+        <!-- scripts -->
+        <script type="text/javascript" src="/static/layer/layer.js" > </script >
+        <script type="text/javascript" >
+        $(".login-center-input").click(function () {
+            var isFocus = $(".input-txt").is(":focus");
+            if (true == isFocus) {
+                $(".error").hide()
+            }
+        });
+        $('#code-txt,#password-txt').bind('keydown', function (event) {
+            if (event.keyCode == "13") {
+                $(".login-button").click();
+            }
+        });
+        $(".login-button").click(function () {
+            var data = {
+                username: $("input[name='username']").val(),
+                password: $("input[name='password']").val(),
+                code: $("input[name='code']").val()
+            }
+            if (data.username != '' && data.password != '') {
+                $.post('/ajax?m=coll_user&f=login', data, function (rdata) {
+                    if (rdata == '1') {
+                        layer.open({
+                            type: 1,
+                            title: false,
+                            area: ['350px', '265px'],
+                            content: '<div class="verification_view">\
+                                            <div class="v_title">Google身份认证</div>\
+                                            <div class="v_input"><input type="text" class="v_code" name="v_code" placeholder="请输入动态口令"/></div>\
+                                            <div class="v_btn"><input id="auth_verif_btn" value="验证并登录" type="submit"></div>\
+                                            <div class="v_tips">* 请使用Google身份验证器APP获取验证代码<br><a target="_blank" href="https://www.bt.cn/bbs/forum.php?mod=viewthread&tid=37437"  class="btlink">无法验证,点击帮助</a></div>\
+                                        </div>',
+                            success: function () {
+                                // 点击验证登录
+                                $('[name="v_code"]').keyup(function (e) {
+                                    if (e.keyCode == 13) $('#auth_verif_btn').click();
+                                });
+                                $('#auth_verif_btn').click(function (e) {
+                                    data['vcode'] = $('[name="v_code"]').val();
+                                    var loadT = layer.msg("正在验证,请稍候...", { icon: 16, time: 0, shade: [0.3, '#000'] });
+                                    $.post('/ajax?m=coll_user&f=login', data, function (rdata) {
+                                        layer.close(loadT);
+                                        if (!rdata.status) {
+                                            layer.msg(rdata.msg, { icon: 2 });
+                                            return false;
+                                        }
+                                        layer.msg(rdata.msg, { icon: 16, time: 0, shade: [0.3, '#000'] });
+                                        window.location.href = '/';
+                                    });
+                                });
+                            }
+                        });
+                        return false;
+                    }
+
+                    if (!rdata.status) {
+                        layer.msg(rdata.msg, { icon: rdata.status ? 1 : 2 });
+                        $(".yzm").show();
+                        $(".ver-code img").click();
+                        return;
+                    }
+                    layer.msg('登录成功，正在跳转..', { icon: 16, time: 0, shade: [0.3, '#000'] });
+                    // $(".login").addClass("active");
+                    // $(".sk-rotating-plane").addClass("active");
+                    // $(".login").hide();
+                    setTimeout(function () {
+                        window.location.href = '/'
+                    }, 1000)
+                    return;
+                });
+            }
+            else {
+                if (username == "") $(".error").text("账号未填写").show();
+                if (password == "" && username != "") $(".error").text("密码未填写").show();
+                return
+            }
+        })
+        </script >
+        </body >
+        </html >
